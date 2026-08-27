@@ -1,0 +1,3254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EcoQuest - Save The Planet</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+    --green:#22c55e;
+    --green2:#16a34a;
+    --dark:#06140d;
+    --dark2:#0b2116;
+    --card:#10291b;
+    --card2:#153522;
+    --text:#f0fdf4;
+    --muted:#9db5a5;
+    --yellow:#facc15;
+    --blue:#38bdf8;
+    --red:#ef4444;
+    --purple:#a78bfa;
+    --border:rgba(255,255,255,.1);
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:
+        radial-gradient(circle at 20% 10%,rgba(34,197,94,.12),transparent 30%),
+        radial-gradient(circle at 80% 80%,rgba(56,189,248,.08),transparent 30%),
+        var(--dark);
+    color:var(--text);
+    min-height:100vh;
+}
+
+button{
+    font-family:inherit;
+}
+
+.hidden{
+    display:none!important;
+}
+
+/* ================= START SCREEN ================= */
+
+#startScreen{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    position:relative;
+    overflow:hidden;
+}
+
+.stars{
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+}
+
+.star{
+    position:absolute;
+    width:3px;
+    height:3px;
+    background:white;
+    border-radius:50%;
+    animation:twinkle 2s infinite alternate;
+}
+
+@keyframes twinkle{
+    from{opacity:.2;transform:scale(.7)}
+    to{opacity:1;transform:scale(1.4)}
+}
+
+.start-box{
+    width:min(900px,100%);
+    text-align:center;
+    padding:45px 25px;
+    position:relative;
+    z-index:2;
+}
+
+.logo{
+    font-size:clamp(55px,10vw,100px);
+    animation:float 3s ease-in-out infinite;
+    filter:drop-shadow(0 0 25px rgba(34,197,94,.5));
+}
+
+@keyframes float{
+    50%{transform:translateY(-12px)}
+}
+
+.game-title{
+    font-size:clamp(42px,8vw,78px);
+    font-weight:900;
+    letter-spacing:3px;
+    background:linear-gradient(90deg,#4ade80,#bef264,#38bdf8);
+    -webkit-background-clip:text;
+    color:transparent;
+}
+
+.subtitle{
+    color:var(--muted);
+    font-size:18px;
+    margin:12px auto 30px;
+    max-width:600px;
+    line-height:1.7;
+}
+
+.start-buttons{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+.btn{
+    border:none;
+    border-radius:14px;
+    padding:14px 25px;
+    font-size:16px;
+    font-weight:700;
+    cursor:pointer;
+    transition:.25s;
+}
+
+.btn:hover{
+    transform:translateY(-3px);
+}
+
+.btn-primary{
+    color:#041108;
+    background:linear-gradient(135deg,#4ade80,#22c55e);
+    box-shadow:0 10px 30px rgba(34,197,94,.25);
+}
+
+.btn-secondary{
+    color:white;
+    background:var(--card);
+    border:1px solid var(--border);
+}
+
+/* ================= GAME ================= */
+
+#gameScreen{
+    min-height:100vh;
+}
+
+.topbar{
+    position:sticky;
+    top:0;
+    z-index:50;
+    backdrop-filter:blur(15px);
+    background:rgba(6,20,13,.9);
+    border-bottom:1px solid var(--border);
+    padding:12px 18px;
+}
+
+.topbar-inner{
+    max-width:1250px;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+}
+
+.brand{
+    font-size:21px;
+    font-weight:900;
+}
+
+.resources{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+.resource{
+    background:var(--card);
+    border:1px solid var(--border);
+    padding:8px 12px;
+    border-radius:10px;
+    font-size:14px;
+    font-weight:bold;
+}
+
+.layout{
+    max-width:1250px;
+    margin:auto;
+    padding:25px 18px 50px;
+}
+
+/* ================= PLAYER ================= */
+
+.player-card{
+    background:linear-gradient(135deg,#10291b,#0b2116);
+    border:1px solid var(--border);
+    border-radius:22px;
+    padding:20px;
+    display:flex;
+    align-items:center;
+    gap:18px;
+    margin-bottom:22px;
+    box-shadow:0 15px 40px rgba(0,0,0,.2);
+}
+
+.avatar{
+    width:72px;
+    height:72px;
+    border-radius:50%;
+    display:grid;
+    place-items:center;
+    background:#173c24;
+    font-size:42px;
+    border:2px solid var(--green);
+}
+
+.player-info{
+    flex:1;
+}
+
+.player-name{
+    font-size:23px;
+    font-weight:800;
+}
+
+.rank{
+    color:var(--green);
+    font-size:14px;
+    margin-top:4px;
+}
+
+.xp-row{
+    margin-top:10px;
+    display:flex;
+    justify-content:space-between;
+    color:var(--muted);
+    font-size:12px;
+}
+
+.xp-bar{
+    height:10px;
+    background:#06140d;
+    border-radius:99px;
+    overflow:hidden;
+    margin-top:6px;
+}
+
+.xp-fill{
+    height:100%;
+    background:linear-gradient(90deg,#22c55e,#bef264);
+    transition:width .5s;
+}
+
+/* ================= PLANET ================= */
+
+.planet-section{
+    display:grid;
+    grid-template-columns:280px 1fr;
+    gap:25px;
+    margin-bottom:30px;
+}
+
+.planet{
+    height:280px;
+    border-radius:50%;
+    position:relative;
+    overflow:hidden;
+    background:
+        radial-gradient(circle at 35% 30%,#7dd3fc,#38bdf8 15%,#075985 40%,#082f49 70%);
+    box-shadow:
+        0 0 35px rgba(56,189,248,.35),
+        inset -25px -20px 50px rgba(0,0,0,.45);
+    transition:.7s;
+}
+
+.planet:before{
+    content:"";
+    position:absolute;
+    width:90px;
+    height:45px;
+    background:#22c55e;
+    border-radius:60% 40% 50% 50%;
+    top:55px;
+    left:45px;
+    transform:rotate(-15deg);
+    box-shadow:
+        75px 50px 0 -8px #16a34a,
+        110px 100px 0 -15px #22c55e,
+        30px 150px 0 -10px #15803d;
+}
+
+.planet:after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:radial-gradient(circle at 30% 20%,rgba(255,255,255,.3),transparent 20%);
+    border-radius:50%;
+}
+
+.planet-info{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+.section-title{
+    font-size:30px;
+    margin-bottom:10px;
+}
+
+.health-number{
+    font-size:48px;
+    font-weight:900;
+    color:var(--green);
+}
+
+.health-bar{
+    height:18px;
+    background:#07170e;
+    border-radius:99px;
+    overflow:hidden;
+    border:1px solid var(--border);
+    margin:10px 0 15px;
+}
+
+.health-fill{
+    height:100%;
+    background:linear-gradient(90deg,#ef4444,#facc15,#22c55e);
+    transition:width .7s;
+}
+
+.health-message{
+    color:var(--muted);
+    line-height:1.6;
+}
+
+/* ================= STATS ================= */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+    margin-bottom:30px;
+}
+
+.stat{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:18px;
+}
+
+.stat-icon{
+    font-size:25px;
+}
+
+.stat-label{
+    color:var(--muted);
+    font-size:12px;
+    margin-top:7px;
+}
+
+.stat-value{
+    font-size:25px;
+    font-weight:800;
+    margin-top:3px;
+}
+
+/* ================= MAP ================= */
+
+.map{
+    background:
+        linear-gradient(rgba(16,41,27,.9),rgba(6,20,13,.95)),
+        repeating-linear-gradient(0deg,transparent 0 40px,rgba(34,197,94,.05) 41px 42px),
+        repeating-linear-gradient(90deg,transparent 0 40px,rgba(34,197,94,.05) 41px 42px);
+    border:1px solid var(--border);
+    border-radius:25px;
+    padding:25px;
+    margin-bottom:30px;
+}
+
+.map-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.zone-grid{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:12px;
+}
+
+.zone{
+    min-height:180px;
+    border:1px solid var(--border);
+    background:rgba(16,41,27,.8);
+    border-radius:18px;
+    padding:15px;
+    text-align:center;
+    cursor:pointer;
+    transition:.25s;
+    position:relative;
+}
+
+.zone:hover:not(.locked){
+    transform:translateY(-7px);
+    border-color:var(--green);
+    box-shadow:0 10px 25px rgba(34,197,94,.12);
+}
+
+.zone.locked{
+    filter:grayscale(1);
+    opacity:.45;
+    cursor:not-allowed;
+}
+
+.zone.current{
+    border:2px solid var(--green);
+}
+
+.zone-icon{
+    font-size:50px;
+    margin-bottom:10px;
+}
+
+.zone-name{
+    font-weight:800;
+}
+
+.zone-desc{
+    font-size:11px;
+    color:var(--muted);
+    margin-top:5px;
+}
+
+.zone-status{
+    margin-top:10px;
+    font-size:11px;
+    color:var(--green);
+}
+
+/* ================= MISSIONS ================= */
+
+.mission-section{
+    margin-bottom:30px;
+}
+
+.mission-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+}
+
+.mission{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:20px;
+    transition:.25s;
+}
+
+.mission:hover{
+    transform:translateY(-4px);
+    border-color:rgba(34,197,94,.4);
+}
+
+.mission-icon{
+    font-size:38px;
+}
+
+.mission h3{
+    margin-top:10px;
+}
+
+.mission p{
+    color:var(--muted);
+    font-size:13px;
+    line-height:1.5;
+    margin:7px 0 15px;
+}
+
+.rewards{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-bottom:15px;
+}
+
+.reward{
+    background:#0a1d14;
+    border-radius:8px;
+    padding:5px 8px;
+    font-size:11px;
+}
+
+/* ================= DAILY ================= */
+
+.daily{
+    background:linear-gradient(135deg,#172f1d,#10291b);
+    border:1px solid rgba(250,204,21,.2);
+    border-radius:20px;
+    padding:20px;
+    margin-bottom:30px;
+}
+
+.daily-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.daily-badge{
+    color:#111;
+    background:var(--yellow);
+    padding:5px 10px;
+    border-radius:8px;
+    font-size:11px;
+    font-weight:bold;
+}
+
+.daily-progress{
+    height:10px;
+    background:#06140d;
+    border-radius:99px;
+    overflow:hidden;
+    margin-top:15px;
+}
+
+.daily-fill{
+    height:100%;
+    background:var(--yellow);
+    transition:.4s;
+}
+
+/* ================= ACHIEVEMENTS ================= */
+
+.achievements{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+    margin-bottom:30px;
+}
+
+.achievement{
+    background:var(--card);
+    border:1px solid var(--border);
+    padding:15px;
+    border-radius:15px;
+    text-align:center;
+    opacity:.4;
+}
+
+.achievement.unlocked{
+    opacity:1;
+    border-color:#facc15;
+    box-shadow:0 0 20px rgba(250,204,21,.08);
+}
+
+.achievement-icon{
+    font-size:32px;
+}
+
+.achievement-name{
+    font-size:13px;
+    font-weight:bold;
+    margin-top:7px;
+}
+
+/* ================= MODAL ================= */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.82);
+    backdrop-filter:blur(8px);
+    z-index:100;
+    display:grid;
+    place-items:center;
+    padding:20px;
+}
+
+.modal-box{
+    width:min(650px,100%);
+    max-height:90vh;
+    overflow:auto;
+    background:#0b2116;
+    border:1px solid var(--border);
+    border-radius:25px;
+    padding:30px;
+    position:relative;
+    animation:modalIn .3s;
+}
+
+@keyframes modalIn{
+    from{transform:scale(.8);opacity:0}
+    to{transform:scale(1);opacity:1}
+}
+
+.close{
+    position:absolute;
+    top:10px;
+    right:15px;
+    border:none;
+    background:none;
+    color:white;
+    font-size:30px;
+    cursor:pointer;
+}
+
+.modal-title{
+    text-align:center;
+    font-size:30px;
+}
+
+.game-description{
+    text-align:center;
+    color:var(--muted);
+    margin:8px 0 15px;
+}
+
+.game-info{
+    display:flex;
+    justify-content:space-between;
+    background:#06140d;
+    border-radius:12px;
+    padding:10px 15px;
+    margin:15px 0;
+    font-weight:bold;
+}
+
+.mini-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    margin:20px 0;
+}
+
+.mini-item{
+    min-height:80px;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:15px;
+    color:white;
+    font-size:32px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.mini-item:hover{
+    transform:scale(1.04);
+    border-color:var(--green);
+}
+
+.mini-item.correct{
+    background:#14532d;
+    border-color:#22c55e;
+}
+
+.mini-item.wrong{
+    background:#450a0a;
+    border-color:#ef4444;
+    animation:shake .3s;
+}
+
+@keyframes shake{
+    25%{transform:translateX(-5px)}
+    50%{transform:translateX(5px)}
+    75%{transform:translateX(-5px)}
+}
+
+.game-message{
+    min-height:25px;
+    text-align:center;
+    font-weight:bold;
+    margin:10px 0;
+}
+
+/* ================= MEMORY ================= */
+
+.memory-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:8px;
+    margin:20px 0;
+}
+
+.memory-card{
+    height:70px;
+    border:none;
+    border-radius:12px;
+    background:#173c24;
+    color:white;
+    font-size:25px;
+    cursor:pointer;
+}
+
+.memory-card.open{
+    background:#075985;
+}
+
+.memory-card.matched{
+    background:#166534;
+}
+
+/* ================= TIMING GAME ================= */
+
+.target-area{
+    height:220px;
+    border-radius:20px;
+    background:#06140d;
+    position:relative;
+    overflow:hidden;
+    margin:20px 0;
+    border:1px solid var(--border);
+}
+
+.target{
+    width:65px;
+    height:65px;
+    position:absolute;
+    display:grid;
+    place-items:center;
+    border-radius:50%;
+    background:#22c55e;
+    box-shadow:0 0 25px rgba(34,197,94,.6);
+    font-size:25px;
+    cursor:pointer;
+}
+
+/* ================= RESULT ================= */
+
+.result{
+    text-align:center;
+}
+
+.result-icon{
+    font-size:70px;
+}
+
+.result-score{
+    font-size:50px;
+    font-weight:900;
+    color:var(--green);
+    margin:10px 0;
+}
+
+.result-rewards{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    flex-wrap:wrap;
+    margin:20px 0;
+}
+
+.result-reward{
+    padding:10px 15px;
+    border-radius:10px;
+    background:var(--card);
+}
+
+/* ================= LEVEL UP ================= */
+
+.levelup{
+    position:fixed;
+    inset:0;
+    z-index:300;
+    background:rgba(0,0,0,.8);
+    display:grid;
+    place-items:center;
+}
+
+.levelup-box{
+    text-align:center;
+    padding:45px;
+    border-radius:30px;
+    background:linear-gradient(135deg,#10291b,#173c24);
+    border:2px solid var(--yellow);
+    box-shadow:0 0 80px rgba(250,204,21,.2);
+    animation:levelPop .5s;
+}
+
+@keyframes levelPop{
+    from{transform:scale(.3);opacity:0}
+    to{transform:scale(1);opacity:1}
+}
+
+.levelup-box .big{
+    font-size:75px;
+}
+
+.levelup-box h2{
+    font-size:38px;
+    color:var(--yellow);
+}
+
+/* ================= TOAST ================= */
+
+#toastContainer{
+    position:fixed;
+    top:75px;
+    right:15px;
+    z-index:500;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+
+.toast{
+    min-width:250px;
+    background:#10291b;
+    border:1px solid var(--green);
+    border-radius:12px;
+    padding:13px 16px;
+    box-shadow:0 10px 30px rgba(0,0,0,.3);
+    animation:toastIn .3s;
+}
+
+@keyframes toastIn{
+    from{transform:translateX(100%);opacity:0}
+    to{transform:translateX(0);opacity:1}
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:900px){
+    .zone-grid{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .planet-section{
+        grid-template-columns:1fr;
+    }
+
+    .planet{
+        width:250px;
+        height:250px;
+        margin:auto;
+    }
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .mission-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .achievements{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:600px){
+    .topbar-inner{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .resources{
+        justify-content:center;
+    }
+
+    .zone-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .mission-grid{
+        grid-template-columns:1fr;
+    }
+
+    .achievements{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .player-card{
+        align-items:flex-start;
+    }
+
+    .player-info{
+        min-width:0;
+    }
+
+    .game-title{
+        letter-spacing:0;
+    }
+
+    .modal-box{
+        padding:20px 15px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= START ================= -->
+
+<section id="startScreen">
+
+<div class="stars" id="stars"></div>
+
+<div class="start-box">
+
+    <div class="logo">🌍</div>
+
+    <h1 class="game-title">ECOQUEST</h1>
+
+    <p class="subtitle">
+        Save a dying planet through challenging missions,
+        environmental mini-games and smart choices.
+        Become the ultimate Eco Hero.
+    </p>
+
+    <div class="start-buttons">
+        <button class="btn btn-primary" onclick="startGame()">
+            🎮 PLAY GAME
+        </button>
+
+        <button class="btn btn-secondary" onclick="showHowToPlay()">
+            📖 HOW TO PLAY
+        </button>
+    </div>
+
+</div>
+
+</section>
+
+<!-- ================= GAME ================= -->
+
+<section id="gameScreen" class="hidden">
+
+<header class="topbar">
+
+<div class="topbar-inner">
+
+<div class="brand">
+🌍 EcoQuest
+</div>
+
+<div class="resources">
+
+<div class="resource">
+⭐ <span id="topXP">0</span> XP
+</div>
+
+<div class="resource">
+🪙 <span id="topCoins">0</span>
+</div>
+
+<div class="resource">
+🌱 <span id="topEco">0</span>
+</div>
+
+<div class="resource">
+🏆 Lv.<span id="topLevel">1</span>
+</div>
+
+</div>
+
+</div>
+
+</header>
+
+<main class="layout">
+
+<!-- PLAYER -->
+
+<div class="player-card">
+
+<div class="avatar" id="playerAvatar">🧑‍🌾</div>
+
+<div class="player-info">
+
+<div class="player-name" id="playerName">
+Eco Hero
+</div>
+
+<div class="rank" id="playerRank">
+🌱 Eco Beginner
+</div>
+
+<div class="xp-row">
+<span>Experience</span>
+<span id="xpText">0 / 100 XP</span>
+</div>
+
+<div class="xp-bar">
+<div class="xp-fill" id="xpFill"></div>
+</div>
+
+</div>
+
+<button class="btn btn-secondary" onclick="resetGame()">
+↻ Reset
+</button>
+
+</div>
+
+<!-- PLANET -->
+
+<section class="planet-section">
+
+<div class="planet" id="planet"></div>
+
+<div class="planet-info">
+
+<h2 class="section-title">
+🌍 Planet Health
+</h2>
+
+<div class="health-number">
+<span id="health">35</span>%
+</div>
+
+<div class="health-bar">
+<div class="health-fill" id="healthFill"></div>
+</div>
+
+<p class="health-message" id="healthMessage">
+The planet is in danger. Start helping nature immediately!
+</p>
+
+</div>
+
+</section>
+
+<!-- STATS -->
+
+<section class="stats">
+
+<div class="stat">
+<div class="stat-icon">🎯</div>
+<div class="stat-label">MISSIONS</div>
+<div class="stat-value" id="missionsDone">0</div>
+</div>
+
+<div class="stat">
+<div class="stat-icon">🌳</div>
+<div class="stat-label">TREES</div>
+<div class="stat-value" id="trees">0</div>
+</div>
+
+<div class="stat">
+<div class="stat-icon">♻️</div>
+<div class="stat-label">RECYCLED</div>
+<div class="stat-value" id="recycled">0</div>
+</div>
+
+<div class="stat">
+<div class="stat-icon">💧</div>
+<div class="stat-label">WATER SAVED</div>
+<div class="stat-value" id="water">0</div>
+</div>
+
+</section>
+
+<!-- MAP -->
+
+<section class="map">
+
+<div class="map-header">
+
+<h2>🗺️ Eco World</h2>
+
+<span id="zoneProgress">
+1 / 5 Zones
+</span>
+
+</div>
+
+<div class="zone-grid" id="zoneGrid"></div>
+
+</section>
+
+<!-- DAILY -->
+
+<section class="daily">
+
+<div class="daily-top">
+
+<div>
+<h2>🌞 Daily Eco Challenge</h2>
+<p id="dailyText">Complete today's special challenge.</p>
+</div>
+
+<div class="daily-badge">
+DAILY
+</div>
+
+</div>
+
+<div class="daily-progress">
+
+<div class="daily-fill" id="dailyFill"></div>
+
+</div>
+
+<p style="margin-top:8px;color:#9db5a5;font-size:12px"
+id="dailyProgressText">
+0 / 3 missions
+</p>
+
+</section>
+
+<!-- MISSIONS -->
+
+<section class="mission-section">
+
+<h2 class="section-title">
+🎯 Missions
+</h2>
+
+<div class="mission-grid" id="missionGrid"></div>
+
+</section>
+
+<!-- ACHIEVEMENTS -->
+
+<section>
+
+<h2 class="section-title">
+🏆 Achievements
+</h2>
+
+<div class="achievements" id="achievementGrid"></div>
+
+</section>
+
+</main>
+
+</section>
+
+<!-- ================= GAME MODAL ================= -->
+
+<div class="modal hidden" id="gameModal">
+
+<div class="modal-box">
+
+<button class="close" onclick="closeGame()">
+×
+</button>
+
+<div id="gameContent"></div>
+
+</div>
+
+</div>
+
+<!-- ================= HOW TO PLAY ================= -->
+
+<div class="modal hidden" id="howModal">
+
+<div class="modal-box">
+
+<button class="close"
+onclick="document.getElementById('howModal').classList.add('hidden')">
+×
+</button>
+
+<h2 class="modal-title">📖 How To Play</h2>
+
+<div style="line-height:1.8;color:#9db5a5;margin-top:20px">
+
+<p>🎯 <b style="color:white">Complete Missions</b><br>
+Play environmental mini-games and earn rewards.</p>
+
+<br>
+
+<p>⭐ <b style="color:white">Earn XP</b><br>
+XP increases your level and unlocks new zones.</p>
+
+<br>
+
+<p>🪙 <b style="color:white">Collect Coins</b><br>
+Coins represent your game economy.</p>
+
+<br>
+
+<p>🌍 <b style="color:white">Protect Planet Health</b><br>
+Every successful mission improves the planet.</p>
+
+<br>
+
+<p>🔓 <b style="color:white">Unlock Zones</b><br>
+Complete enough missions to explore new environments.</p>
+
+<br>
+
+<p>🏆 <b style="color:white">Unlock Achievements</b><br>
+Complete special environmental milestones.</p>
+
+</div>
+
+<button class="btn btn-primary"
+style="width:100%;margin-top:25px"
+onclick="document.getElementById('howModal').classList.add('hidden')">
+Got It!
+</button>
+
+</div>
+
+</div>
+
+<!-- ================= LEVEL UP ================= -->
+
+<div class="levelup hidden" id="levelUp">
+
+<div class="levelup-box">
+
+<div class="big">🎉</div>
+
+<h2>LEVEL UP!</h2>
+
+<p style="margin:10px;color:#9db5a5">
+You are becoming a stronger Eco Hero.
+</p>
+
+<h3 id="newLevel" style="font-size:28px">
+Level 2
+</h3>
+
+<button class="btn btn-primary"
+style="margin-top:20px"
+onclick="document.getElementById('levelUp').classList.add('hidden')">
+Continue
+</button>
+
+</div>
+
+</div>
+
+<div id="toastContainer"></div>
+
+<script>
+
+/* =========================================================
+   ECOQUEST GAME
+========================================================= */
+
+const STORAGE_KEY = "ecoquest_complete_v2";
+
+/* ================= PLAYER DATA ================= */
+
+let player = {
+    name:"Eco Hero",
+    avatar:"🧑‍🌾",
+    level:1,
+    xp:0,
+    coins:100,
+    eco:0,
+    health:35,
+
+    missions:0,
+    trees:0,
+    recycled:0,
+    water:0,
+    energy:0,
+
+    daily:0,
+    unlockedZones:1,
+
+    achievements:[]
+};
+
+let currentMission = null;
+let missionTimer = null;
+
+/* ================= ZONES ================= */
+
+const zones = [
+
+{
+    id:1,
+    name:"Green Forest",
+    icon:"🌲",
+    desc:"Protect forests",
+    unlock:0,
+    missions:[
+        {
+            id:"tree",
+            name:"Tree Plantation",
+            icon:"🌱",
+            desc:"Plant trees at the correct locations.",
+            rewardXP:60,
+            rewardCoins:35,
+            rewardEco:45,
+            health:3
+        },
+        {
+            id:"forest",
+            name:"Forest Cleanup",
+            icon:"🧹",
+            desc:"Remove harmful waste from the forest.",
+            rewardXP:70,
+            rewardCoins:40,
+            rewardEco:50,
+            health:3
+        }
+    ]
+},
+
+{
+    id:2,
+    name:"Recycling City",
+    icon:"♻️",
+    desc:"Master waste sorting",
+    unlock:3,
+    missions:[
+        {
+            id:"recycle",
+            name:"Recycle Rush",
+            icon:"♻️",
+            desc:"Sort waste into the correct bins.",
+            rewardXP:90,
+            rewardCoins:50,
+            rewardEco:60,
+            health:4
+        },
+        {
+            id:"plastic",
+            name:"Plastic Hunter",
+            icon:"🧴",
+            desc:"Find harmful plastic before time runs out.",
+            rewardXP:100,
+            rewardCoins:55,
+            rewardEco:65,
+            health:4
+        }
+    ]
+},
+
+{
+    id:3,
+    name:"Green Home",
+    icon:"🏠",
+    desc:"Save energy & water",
+    unlock:6,
+    missions:[
+        {
+            id:"water",
+            name:"Water Saver",
+            icon:"💧",
+            desc:"Close leaking taps before water is wasted.",
+            rewardXP:110,
+            rewardCoins:60,
+            rewardEco:70,
+            health:4
+        },
+        {
+            id:"energy",
+            name:"Energy Saver",
+            icon:"⚡",
+            desc:"Turn off unnecessary appliances.",
+            rewardXP:110,
+            rewardCoins:60,
+            rewardEco:70,
+            health:4
+        }
+    ]
+},
+
+{
+    id:4,
+    name:"Eco City",
+    icon:"🏙️",
+    desc:"Choose green transport",
+    unlock:9,
+    missions:[
+        {
+            id:"transport",
+            name:"Green Transport",
+            icon:"🚲",
+            desc:"Choose the lowest pollution option.",
+            rewardXP:130,
+            rewardCoins:70,
+            rewardEco:80,
+            health:5
+        },
+        {
+            id:"memory",
+            name:"Eco Memory",
+            icon:"🧠",
+            desc:"Remember sustainable choices.",
+            rewardXP:140,
+            rewardCoins:75,
+            rewardEco:90,
+            health:5
+        }
+    ]
+},
+
+{
+    id:5,
+    name:"Clean River",
+    icon:"🌊",
+    desc:"Save water ecosystems",
+    unlock:12,
+    missions:[
+        {
+            id:"river",
+            name:"River Rescue",
+            icon:"🌊",
+            desc:"Clean the river before pollution spreads.",
+            rewardXP:160,
+            rewardCoins:90,
+            rewardEco:100,
+            health:6
+        },
+        {
+            id:"target",
+            name:"Pollution Strike",
+            icon:"🎯",
+            desc:"Hit pollution targets quickly.",
+            rewardXP:180,
+            rewardCoins:100,
+            rewardEco:120,
+            health:6
+        }
+    ]
+}
+
+];
+
+/* ================= ACHIEVEMENTS ================= */
+
+const achievements = [
+
+{
+    id:"first",
+    icon:"🌱",
+    name:"First Step",
+    check:p=>p.missions>=1
+},
+
+{
+    id:"trees",
+    icon:"🌳",
+    name:"Tree Guardian",
+    check:p=>p.trees>=10
+},
+
+{
+    id:"recycle",
+    icon:"♻️",
+    name:"Recycling Hero",
+    check:p=>p.recycled>=15
+},
+
+{
+    id:"water",
+    icon:"💧",
+    name:"Water Guardian",
+    check:p=>p.water>=300
+},
+
+{
+    id:"energy",
+    icon:"⚡",
+    name:"Energy Saver",
+    check:p=>p.energy>=20
+},
+
+{
+    id:"level5",
+    icon:"🔥",
+    name:"Eco Warrior",
+    check:p=>p.level>=5
+},
+
+{
+    id:"zones",
+    icon:"🗺️",
+    name:"Explorer",
+    check:p=>p.unlockedZones>=5
+},
+
+{
+    id:"planet",
+    icon:"🌍",
+    name:"Planet Protector",
+    check:p=>p.health>=100
+}
+
+];
+
+/* ================= INIT ================= */
+
+document.addEventListener("DOMContentLoaded",()=>{
+
+    createStars();
+
+    const saved = localStorage.getItem(STORAGE_KEY);
+
+    if(saved){
+
+        try{
+
+            player = {
+                ...player,
+                ...JSON.parse(saved)
+            };
+
+        }catch(e){
+
+            localStorage.removeItem(STORAGE_KEY);
+
+        }
+
+    }
+
+    if(localStorage.getItem("ecoquest_started")==="yes"){
+
+        showGame();
+
+    }
+
+});
+
+/* ================= START ================= */
+
+function startGame(){
+
+    if(player.name==="Eco Hero"){
+
+        const name = prompt(
+            "Enter your Eco Hero name:",
+            "Eco Hero"
+        );
+
+        if(name && name.trim()){
+
+            player.name=name.trim();
+
+        }
+
+    }
+
+    localStorage.setItem("ecoquest_started","yes");
+
+    saveGame();
+
+    showGame();
+
+}
+
+/* ================= SHOW GAME ================= */
+
+function showGame(){
+
+    document.getElementById("startScreen").style.display="none";
+
+    document.getElementById("gameScreen").classList.remove("hidden");
+
+    updateUI();
+
+}
+
+/* ================= SAVE ================= */
+
+function saveGame(){
+
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(player)
+    );
+
+}
+
+/* ================= RESET ================= */
+
+function resetGame(){
+
+    if(!confirm("Reset all EcoQuest progress?")) return;
+
+    localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem("ecoquest_started");
+
+    location.reload();
+
+}
+
+/* ================= UI ================= */
+
+function updateUI(){
+
+    document.getElementById("playerName").textContent=player.name;
+
+    document.getElementById("playerAvatar").textContent=player.avatar;
+
+    document.getElementById("topXP").textContent=player.xp;
+
+    document.getElementById("topCoins").textContent=player.coins;
+
+    document.getElementById("topEco").textContent=player.eco;
+
+    document.getElementById("topLevel").textContent=player.level;
+
+    document.getElementById("health").textContent=player.health;
+
+    document.getElementById("healthFill").style.width=
+        player.health+"%";
+
+    document.getElementById("missionsDone").textContent=
+        player.missions;
+
+    document.getElementById("trees").textContent=
+        player.trees;
+
+    document.getElementById("recycled").textContent=
+        player.recycled;
+
+    document.getElementById("water").textContent=
+        player.water+" L";
+
+    updateXP();
+
+    updateRank();
+
+    updatePlanet();
+
+    renderZones();
+
+    renderMissions();
+
+    renderAchievements();
+
+    updateDaily();
+
+}
+
+/* ================= XP ================= */
+
+function xpNeeded(){
+
+    return 100 + (player.level-1)*75;
+
+}
+
+function updateXP(){
+
+    const need=xpNeeded();
+
+    const percentage=Math.min(
+        100,
+        (player.xp/need)*100
+    );
+
+    document.getElementById("xpFill").style.width=
+        percentage+"%";
+
+    document.getElementById("xpText").textContent=
+        `${player.xp} / ${need} XP`;
+
+}
+
+/* ================= ADD XP ================= */
+
+function addXP(amount){
+
+    player.xp += amount;
+
+    let leveled=false;
+
+    while(player.xp >= xpNeeded()){
+
+        player.xp -= xpNeeded();
+
+        player.level++;
+
+        player.coins += 100;
+
+        leveled=true;
+
+    }
+
+    if(leveled){
+
+        if(player.level>=3)
+            player.unlockedZones=Math.max(
+                player.unlockedZones,2
+            );
+
+        if(player.level>=5)
+            player.unlockedZones=Math.max(
+                player.unlockedZones,3
+            );
+
+        if(player.level>=7)
+            player.unlockedZones=Math.max(
+                player.unlockedZones,4
+            );
+
+        if(player.level>=9)
+            player.unlockedZones=Math.max(
+                player.unlockedZones,5
+            );
+
+        document.getElementById("newLevel").textContent=
+            "Level "+player.level;
+
+        document.getElementById("levelUp")
+            .classList.remove("hidden");
+
+        showToast("🎉 Level Up! Level "+player.level);
+
+    }
+
+}
+
+/* ================= RANK ================= */
+
+function updateRank(){
+
+    const ranks=[
+        [1,"🌱 Eco Beginner"],
+        [3,"🌿 Nature Scout"],
+        [5,"🌳 Nature Guardian"],
+        [7,"🌎 Eco Warrior"],
+        [10,"🌍 Planet Protector"]
+    ];
+
+    let rank=ranks[0][1];
+
+    ranks.forEach(r=>{
+
+        if(player.level>=r[0])
+            rank=r[1];
+
+    });
+
+    document.getElementById("playerRank").textContent=rank;
+
+}
+
+/* ================= PLANET ================= */
+
+function updatePlanet(){
+
+    const h=player.health;
+
+    const planet=document.getElementById("planet");
+
+    if(h<40){
+
+        planet.style.filter=
+            "saturate(.55) brightness(.75)";
+
+    }else if(h<70){
+
+        planet.style.filter=
+            "saturate(.8)";
+
+    }else if(h<90){
+
+        planet.style.filter=
+            "saturate(1.1)";
+
+    }else{
+
+        planet.style.filter=
+            "saturate(1.35) brightness(1.1)";
+
+    }
+
+    let message="";
+
+    if(h<40)
+        message="⚠️ The planet is in critical condition.";
+
+    else if(h<60)
+        message="🌱 Nature is recovering. Keep going.";
+
+    else if(h<80)
+        message="🌿 The planet is becoming healthier.";
+
+    else if(h<100)
+        message="🌎 Amazing! The planet is almost green.";
+
+    else
+        message="🏆 GREEN PLANET ACHIEVED! You saved the world.";
+
+    document.getElementById("healthMessage").textContent=message;
+
+}
+
+/* ================= ZONES ================= */
+
+function renderZones(){
+
+    const grid=document.getElementById("zoneGrid");
+
+    grid.innerHTML="";
+
+    zones.forEach(zone=>{
+
+        const unlocked=
+            zone.id<=player.unlockedZones;
+
+        const div=document.createElement("div");
+
+        div.className=
+            "zone "+
+            (!unlocked?"locked ":"")+
+            (zone.id===player.unlockedZones?"current":"");
+
+        div.innerHTML=`
+
+            <div class="zone-icon">
+                ${zone.icon}
+            </div>
+
+            <div class="zone-name">
+                ${zone.name}
+            </div>
+
+            <div class="zone-desc">
+                ${zone.desc}
+            </div>
+
+            <div class="zone-status">
+                ${
+                    unlocked
+                    ?"🔓 AVAILABLE"
+                    :"🔒 LOCKED"
+                }
+            </div>
+
+        `;
+
+        if(unlocked){
+
+            div.onclick=()=>{
+
+                document
+                .getElementById("missionGrid")
+                .scrollIntoView({
+                    behavior:"smooth"
+                });
+
+                showToast(
+                    zone.icon+" "+zone.name+
+                    " selected"
+                );
+
+            };
+
+        }
+
+        grid.appendChild(div);
+
+    });
+
+    document.getElementById("zoneProgress").textContent=
+        `${player.unlockedZones} / 5 Zones`;
+
+}
+
+/* ================= MISSIONS ================= */
+
+function renderMissions(){
+
+    const grid=document.getElementById("missionGrid");
+
+    grid.innerHTML="";
+
+    zones.forEach(zone=>{
+
+        if(zone.id>player.unlockedZones)
+            return;
+
+        zone.missions.forEach(m=>{
+
+            const div=document.createElement("div");
+
+            div.className="mission";
+
+            div.innerHTML=`
+
+                <div class="mission-icon">
+                    ${m.icon}
+                </div>
+
+                <h3>${m.name}</h3>
+
+                <p>${m.desc}</p>
+
+                <div class="rewards">
+
+                    <span class="reward">
+                        ⭐ ${m.rewardXP}
+                    </span>
+
+                    <span class="reward">
+                        🪙 ${m.rewardCoins}
+                    </span>
+
+                    <span class="reward">
+                        🌱 ${m.rewardEco}
+                    </span>
+
+                </div>
+
+                <button
+                    class="btn btn-primary"
+                    style="width:100%"
+                    onclick="startMission('${m.id}')"
+                >
+                    🎮 PLAY
+                </button>
+
+            `;
+
+            grid.appendChild(div);
+
+        });
+
+    });
+
+}
+
+/* ================= MISSION START ================= */
+
+function startMission(id){
+
+    const mission =
+        zones
+        .flatMap(z=>z.missions)
+        .find(m=>m.id===id);
+
+    if(!mission) return;
+
+    currentMission=mission;
+
+    document
+        .getElementById("gameModal")
+        .classList.remove("hidden");
+
+    if(id==="tree")
+        treeGame();
+
+    else if(id==="forest")
+        forestGame();
+
+    else if(id==="recycle")
+        recycleGame();
+
+    else if(id==="plastic")
+        plasticGame();
+
+    else if(id==="water")
+        waterGame();
+
+    else if(id==="energy")
+        energyGame();
+
+    else if(id==="transport")
+        transportGame();
+
+    else if(id==="memory")
+        memoryGame();
+
+    else if(id==="river")
+        riverGame();
+
+    else if(id==="target")
+        targetGame();
+
+}
+
+/* ================= CLOSE ================= */
+
+function closeGame(){
+
+    clearInterval(missionTimer);
+
+    document
+        .getElementById("gameModal")
+        .classList.add("hidden");
+
+}
+
+/* ================= TREE GAME ================= */
+
+function treeGame(){
+
+    let planted=0;
+
+    document.getElementById("gameContent").innerHTML=`
+
+        <h2 class="modal-title">
+            🌱 Tree Plantation
+        </h2>
+
+        <p class="game-description">
+            Plant trees in the healthy soil.
+        </p>
+
+        <div class="game-info">
+            <span>🌳 Trees: <b id="treeCount">0</b>/5</span>
+            <span>⏱️ 15 sec</span>
+        </div>
+
+        <div class="mini-grid" id="treeGrid"></div>
+
+        <div class="game-message" id="gameMessage">
+            Click healthy soil!
+        </div>
+
+    `;
+
+    const grid=document.getElementById("treeGrid");
+
+    for(let i=0;i<12;i++){
+
+        const b=document.createElement("button");
+
+        b.className="mini-item";
+
+        b.textContent=
+            Math.random()>.3?"🌱":"🪨";
+
+        b.onclick=()=>{
+
+            if(b.disabled)return;
+
+            if(b.textContent==="🌱"){
+
+                b.classList.add("correct");
+
+                b.disabled=true;
+
+                b.textContent="🌳";
+
+                planted++;
+
+                document.getElementById("treeCount")
+                    .textContent=planted;
+
+                if(planted>=5)
+                    finishMission(true);
+
+            }else{
+
+                b.classList.add("wrong");
+
+                document.getElementById("gameMessage")
+                    .textContent=
+                    "❌ Wrong location!";
+
+            }
+
+        };
+
+        grid.appendChild(b);
+
+    }
+
+    startTimer(15,()=>finishMission(planted>=5));
+
+}
+
+/* ================= FOREST GAME ================= */
+
+function forestGame(){
+
+    let score=0;
+
+    const items=[
+        "🗑️","🍾","🧴","🌿","🪨",
+        "🍃","🗑️","🥤","🌲","🧴",
+        "🍂","🗑️"
+    ];
+
+    document.getElementById("gameContent").innerHTML=`
+
+        <h2 class="modal-title">
+            🧹 Forest Cleanup
+        </h2>
+
+        <p class="game-description">
+            Remove waste without damaging nature.
+        </p>
+
+        <div class="game-info">
+            <span>🗑️ Waste: <b id="forestScore">0</b>/6</span>
+            <span>⏱️ 15 sec</span>
+        </div>
+
+        <div class="mini-grid" id="forestGrid"></div>
+
+        <div class="game-message" id="gameMessage"></div>
+
+    `;
+
+    const grid=document.getElementById("forestGrid");
+
+    items.forEach(item=>{
+
+        const b=document.createElement("button");
+
+        b.className="mini-item";
+
+        b.textContent=item;
+
+        b.onclick=()=>{
+
+            if(b.disabled)return;
+
+            if(
+                ["🗑️","🍾","🧴","🥤"].includes(item)
+            ){
+
+                b.disabled=true;
+
+                b.classList.add("correct");
+
+                b.textContent="✨";
+
+                score++;
+
+                document.getElementById("forestScore")
+                    .textContent=score;
+
+                if(score>=6)
+                    finishMission(true);
+
+            }else{
+
+                b.classList.add("wrong");
+
+                document.getElementById("gameMessage")
+                    .textContent=
+                    "⚠️ Don't remove nature!";
+
+            }
+
+        };
+
+        grid.appendChild(b);
+
+    });
+
+    startTimer(15,()=>finishMission(score>=6));
+
+}
+
+/* ================= RECYCLE GAME ================= */
+
+function recycleGame(){
+
+    const waste=[
+        ["🍌","Organic"],
+        ["🍾","Plastic"],
+        ["📄","Paper"],
+        ["🥫","Metal"],
+        ["🍎","Organic"],
+        ["🧴","Plastic"],
+        ["📰","Paper"],
+        ["🥤","Plastic"]
+    ];
+
+    let index=0;
+    let score=0;
+
+    function render(){
+
+        if(index>=waste.length){
+
+            finishMission(score>=6);
+            return;
+
+        }
+
+        const [item,type]=waste[index];
+
+        document.getElementById("gameContent").innerHTML=`
+
+            <h2 class="modal-title">
+                ♻️ Recycling Rush
+            </h2>
+
+            <p class="game-description">
+                Put the item into the correct bin.
+            </p>
+
+            <div class="game-info">
+                <span>Item ${index+1}/${waste.length}</span>
+                <span>Score: ${score}</span>
+            </div>
+
+            <div style="
+                text-align:center;
+                font-size:75px;
+                margin:20px">
+                ${item}
+            </div>
+
+            <div class="mini-grid">
+
+                <button class="mini-item"
+                    onclick="recycleAnswer('Organic')">
+                    🟫
+                    <small style="display:block;font-size:12px">
+                    Organic
+                    </small>
+                </button>
+
+                <button class="mini-item"
+                    onclick="recycleAnswer('Plastic')">
+                    🟨
+                    <small style="display:block;font-size:12px">
+                    Plastic
+                    </small>
+                </button>
+
+                <button class="mini-item"
+                    onclick="recycleAnswer('Paper')">
+                    🟦
+                    <small style="display:block;font-size:12px">
+                    Paper
+                    </small>
+                </button>
+
+                <button class="mini-item"
+                    onclick="recycleAnswer('Metal')">
+                    ⚙️
+                    <small style="display:block;font-size:12px">
+                    Metal
+                    </small>
+                </button>
+
+            </div>
+
+            <div class="game-message" id="gameMessage"></div>
+
+        `;
+
+        window.recycleAnswer=function(answer){
+
+            if(answer===type){
+
+                score++;
+
+                player.recycled += 2;
+
+                showToast("✅ Correct recycling!");
+
+            }else{
+
+                score--;
+
+                showToast("❌ Wrong bin!");
+
+            }
+
+            index++;
+
+            render();
+
+        };
+
+    }
+
+    render();
+
+}
+
+/* ================= PLASTIC ================= */
+
+function plasticGame(){
+
+    let found=0;
+
+    const total=7;
+
+    document.getElementById("gameContent").innerHTML=`
+
+        <h2 class="modal-title">
+            🧴 Plastic Hunter
+        </h2>
+
+        <p class="game-description">
+            Find 7 plastic items hidden among natural objects.
+        </p>
+
+        <div class="game-info">
+            <span>Plastic: <b id="plasticCount">0</b>/7</span>
+            <span>⏱️ 18 sec</span>
+        </div>
+
+        <div class="mini-grid" id="plasticGrid"></div>
+
+    `;
+
+    const grid=document.getElementById("plasticGrid");
+
+    const items=[
+        "🧴","🌿","🍃","🍾","🌳",
+        "🧴","🪨","🥤","🌲",
+        "🍂","🧴","🍀","🧴",
+        "🌱","🍾","🌳","🧴","🌿"
+    ];
+
+    items.forEach(item=>{
+
+        const b=document.createElement("button");
+
+        b.className="mini-item";
+
+        b.textContent=item;
+
+        b.onclick=()=>{
+
+            if(b.disabled)return;
+
+            if(
+                ["🧴","🍾","🥤"].includes(item)
+            ){
+
+                b.disabled=true;
+
+                b.classList.add("correct");
+
+                b.textContent="♻️";
+
+                found++;
+
+                document.getElementById("plasticCount")
+                    .textContent=found;
+
+                if(found>=total)
+                    finishMission(true);
+
+            }else{
+
+                b.classList.add("wrong");
+
+            }
+
+        };
+
+        grid.appendChild(b);
+
+    });
+
+    startTimer(18,()=>finishMission(found>=total));
+
+}
+
+/* ================= WATER ================= */
+
+function waterGame(){
+
+    let closed=0;
+
+    document.getElementById("gameContent").innerHTML=`
+
+        <h2 class="modal-title">
+            💧 Water Saver
+        </h2>
+
+        <p class="game-description">
+            Close leaking taps before water is wasted.
+        </p>
+
+        <div class="game-info">
+            <span>🚰 Closed: <b id="tapCount">0</b>/6</span>
+            <span>⏱️ 12 sec</span>
+        </div>
+
+        <div class="mini-grid" id="tapGrid"></div>
+
+    `;
+
+    const grid=document.getElementById("tapGrid");
+
+    for(let i=0;i<12;i++){
+
+        const b=document.createElement("button");
+
+        b.className="mini-item";
+
+        const leaking=Math.random()>.4;
+
+        b.textContent=leaking?"🚰":"🔧";
+
+        b.onclick=()=>{
+
+            if(b.disabled)return;
+
+            if(leaking){
+
+                b.disabled=true;
+
+                b.textContent="🛑";
+
+                b.classList.add("correct");
+
+                closed++;
+
+                player.water+=50;
+
+                document.getElementById("tapCount")
+                    .textContent=closed;
+
+                if(closed>=6)
+                    finishMission(true);
+
+            }else{
+
+                b.classList.add("wrong");
+
+            }
+
+        };
+
+        grid.appendChild(b);
+
+    }
+
+    startTimer(12,()=>finishMission(closed>=6));
+
+}
+
+/* ================= ENERGY ================= */
+
+function energyGame(){
+
+    let off=0;
+
+    document.getElementById("gameContent").innerHTML=`
+
+        <h2 class="modal-title">
+            ⚡ Energy Saver
+        </h2>
+
+        <p class="game-description">
+            Turn off appliances that are unnecessarily running.
+        </p>
+
+        <div class="game-info">
+            <span>⚡ Saved: <b id="energyCount">0</b>/6</span>
+            <span>⏱️ 15 sec</span>
+        </div>
+
+        <div class="mini-grid" id="energyGrid"></div>
+
+    `;
+
+    const grid=document.getElementById("energyGrid");
+
+    const appliances=[
+        ["💡",true],
+        ["📺",true],
+        ["🧊",false],
+        ["💻",true],
+        ["🌀",true],
+        ["🔌",true],
+        ["🔥",false],
+        ["💡",true],
+        ["📻",true]
+    ];
+
+    appliances.forEach(([icon,needed])=>{
+
+        const b=document.createElement("button");
+
+        b.className="mini-item";
+
+        b.textContent=icon;
+
+        b.onclick=()=>{
+
+            if(b.disabled)return;
+
+            if(needed){
+
+                b.disabled=true;
+
+                b.textContent="🔌";
+
+                b.classList.add("correct");
+
+                off++;
+
+                player.energy+=5;
+
+                document.getElementById("energyCount")
+                    .textContent=off;
+
+                if(off>=6)
+                    finishMission(true);
+
+            }else{
+
+                b.classList.add("wrong");
+
+            }
+
+        };
+
+        grid.appendChild(b);
+
+    });
+
+    startTimer(15,()=>finishMission(off>=6));
+
+}
+
+/* ================= TRANSPORT ================= */
+
+function transportGame(){
+
+    const situations=[
+
+        {
+            q:"You need to travel 2 km alone. Best choice?",
+            correct:"🚲",
+            options:["🚗","🚲","🛵","🚕"]
+        },
+
+        {
+            q:"You need to travel 15 km with many people.",
+            correct:"🚌",
+            options:["🚗","🚌","🚲","🚕"]
+        },
+
+        {
+            q:"You need to travel 5 km and have plenty of time.",
+            correct:"🚶",
+            options:["🚗","🚕","🚶","🏍️"]
+        }
+
+    ];
+
+    let index=0;
+    let score=0;
+
+    function next(){
+
+        if(index>=situations.length){
+
+            finishMission(score===situations.length);
+
+            return;
+
+        }
+
+        const s=situations[index];
+
+        document.getElementById("gameContent").innerHTML=`
+
+            <h2 class="modal-title">
+                🚲 Green Transport
+            </h2>
+
+            <p class="game-description">
+                Choose the most environmentally friendly option.
+            </p>
+
+            <div class="game-info">
+                <span>Question ${index+1}/3</span>
+                <span>Score ${score}</span>
+            </div>
+
+            <h3 style="text-align:center;margin:20px 0">
+                ${s.q}
+            </h3>
+
+            <div class="mini-grid">
+
+                ${s.options.map(o=>`
+
+                    <button
+                        class="mini-item"
+                        onclick="transportAnswer('${o}')">
+                        ${o}
+                    </button>
+
+                `).join("")}
+
+            </div>
+
+        `;
+
+        window.transportAnswer=function(answer){
+
+            if(answer===s.correct){
+
+                score++;
+
+                showToast("🌱 Excellent choice!");
+
+            }else{
+
+                showToast("❌ Higher pollution!");
+
+            }
+
+            index++;
+
+            next();
+
+        };
+
+    }
+
+    next();
+
+}
+
+/* ================= MEMORY GAME ================= */
+
+function memoryGame(){
+
+    const icons=[
+        "🌳","♻️","💧","☀️",
+        "🌳","♻️","💧","☀️"
+    ];
+
+    icons.sort(()=>Math.random()-.5);
+
+    let opened=[];
+    let matched=0;
+
+    document.getElementById("gameContent").innerHTML=`
+
+        <h2 class="modal-title">
+            🧠 Eco Memory
+        </h2>
+
+        <p class="game-description">
+            Match all sustainable pairs.
+        </p>
+
+        <div class="memory-grid" id="memoryGrid"></div>
+
+        <div class="game-message" id="gameMessage">
+            Find the pairs!
+        </div>
+
+    `;
+
+    const grid=document.getElementById("memoryGrid");
+
+    icons.forEach((icon,index)=>{
+
+        const b=document.createElement("button");
+
+        b.className="memory-card";
+
+        b.textContent="❓";
+
+        b.dataset.icon=icon;
+
+        b.onclick=()=>{
+
+            if(
+                b.classList.contains("open") ||
+                b.classList.contains("matched") ||
+                opened.length>=2
+            )return;
+
+            b.classList.add("open");
+
+            b.textContent=icon;
+
+            opened.push(b);
+
+            if(opened.length===2){
+
+                const [a,c]=opened;
+
+                if(a.dataset.icon===c.dataset.icon){
+
+                    a.classList.add("matched");
+                    c.classList.add("matched");
+
+                    opened=[];
+
+                    matched++;
+
+                    if(matched===4)
+                        finishMission(true);
+
+                }else{
+
+                    setTimeout(()=>{
+
+                        a.classList.remove("open");
+                        c.classList.remove("open");
+
+                        a.textContent="❓";
+                        c.textContent="❓";
+
+                        opened=[];
+
+                    },600);
+
+                }
+
+            }
+
+        };
+
+        grid.appendChild(b);
+
+    });
+
+}
+
+/* ================= RIVER GAME ================= */
+
+function riverGame(){
+
+    let collected=0;
+
+    const items=[
+        "🗑️","🍾","🐟","🧴",
+        "🌿","🥤","🗑️","🌊",
+        "🍾","🐠","🧴","🌱",
+        "🥤","🗑️","🐟"
+    ];
+
+    document.getElementById("gameContent").innerHTML=`
+
+        <h2 class="modal-title">
+            🌊 River Rescue
+        </h2>
+
+        <p class="game-description">
+            Remove pollution but protect aquatic life.
+        </p>
+
+        <div class="game-info">
+            <span>Collected: <b id="riverCount">0</b>/7</span>
+            <span>⏱️ 18 sec</span>
+        </div>
+
+        <div class="mini-grid" id="riverGrid"></div>
+
+    `;
+
+    const grid=document.getElementById("riverGrid");
+
+    items.forEach(item=>{
+
+        const b=document.createElement("button");
+
+        b.className="mini-item";
+
+        b.textContent=item;
+
+        b.onclick=()=>{
+
+            if(b.disabled)return;
+
+            if(
+                ["🗑️","🍾","🧴","🥤"].includes(item)
+            ){
+
+                b.disabled=true;
+
+                b.textContent="✨";
+
+                b.classList.add("correct");
+
+                collected++;
+
+                document.getElementById("riverCount")
+                    .textContent=collected;
+
+                if(collected>=7)
+                    finishMission(true);
+
+            }else{
+
+                b.classList.add("wrong");
+
+                showToast("🐟 Don't hurt wildlife!");
+
+            }
+
+        };
+
+        grid.appendChild(b);
+
+    });
+
+    startTimer(18,()=>finishMission(collected>=7));
+
+}
+
+/* ================= TARGET GAME ================= */
+
+function targetGame(){
+
+    let score=0;
+    let time=15;
+
+    document.getElementById("gameContent").innerHTML=`
+
+        <h2 class="modal-title">
+            🎯 Pollution Strike
+        </h2>
+
+        <p class="game-description">
+            Hit pollution targets as quickly as possible.
+        </p>
+
+        <div class="game-info">
+
+            <span>
+                🎯 <b id="targetScore">0</b>/10
+            </span>
+
+            <span>
+                ⏱️ <b id="targetTime">15</b>s
+            </span>
+
+        </div>
+
+        <div class="target-area" id="targetArea">
+            <div class="target" id="target">
+                🧴
+            </div>
+        </div>
+
+    `;
+
+    const area=document.getElementById("targetArea");
+
+    const target=document.getElementById("target");
+
+    function moveTarget(){
+
+        const maxX=area.clientWidth-70;
+        const maxY=area.clientHeight-70;
+
+        target.style.left=
+            Math.random()*maxX+"px";
+
+        target.style.top=
+            Math.random()*maxY+"px";
+
+    }
+
+    target.onclick=()=>{
+
+        score++;
+
+        document.getElementById("targetScore")
+            .textContent=score;
+
+        moveTarget();
+
+        if(score>=10){
+
+            clearInterval(missionTimer);
+
+            finishMission(true);
+
+        }
+
+    };
+
+    moveTarget();
+
+    missionTimer=setInterval(()=>{
+
+        time--;
+
+        document.getElementById("targetTime")
+            .textContent=time;
+
+        if(time<=0){
+
+            clearInterval(missionTimer);
+
+            finishMission(score>=7);
+
+        }
+
+    },1000);
+
+}
+
+/* ================= TIMER ================= */
+
+function startTimer(seconds,callback){
+
+    clearInterval(missionTimer);
+
+    let time=seconds;
+
+    const timerDisplay=document.querySelector(".game-info span:last-child");
+
+    if(timerDisplay)
+        timerDisplay.textContent="⏱️ "+time+" sec";
+
+    missionTimer=setInterval(()=>{
+
+        time--;
+
+        if(timerDisplay)
+            timerDisplay.textContent=
+                "⏱️ "+time+" sec";
+
+        if(time<=0){
+
+            clearInterval(missionTimer);
+
+            callback();
+
+        }
+
+    },1000);
+
+}
+
+/* ================= FINISH ================= */
+
+function finishMission(success){
+
+    clearInterval(missionTimer);
+
+    if(!currentMission)return;
+
+    if(!success){
+
+        document.getElementById("gameContent").innerHTML=`
+
+            <div class="result">
+
+                <div class="result-icon">
+                    😢
+                </div>
+
+                <h2>Mission Failed</h2>
+
+                <p style="color:#9db5a5;margin:10px">
+                    Don't give up. Try again!
+                </p>
+
+                <button
+                    class="btn btn-primary"
+                    onclick="startMission('${currentMission.id}')">
+                    🔄 Try Again
+                </button>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+    const m=currentMission;
+
+    player.missions++;
+
+    player.coins += m.rewardCoins;
+
+    player.eco += m.rewardEco;
+
+    player.health=Math.min(
+        100,
+        player.health+m.health
+    );
+
+    addXP(m.rewardXP);
+
+    if(m.id==="tree")
+        player.trees+=5;
+
+    if(m.id==="recycle")
+        player.recycled+=8;
+
+    if(m.id==="forest")
+        player.recycled+=5;
+
+    if(m.id==="water")
+        player.water+=150;
+
+    if(m.id==="river")
+        player.recycled+=7;
+
+    player.daily=Math.min(3,player.daily+1);
+
+    checkUnlocks();
+
+    checkAchievements();
+
+    saveGame();
+
+    updateUI();
+
+    showToast(
+        "🎉 Mission Complete! +"+
+        m.rewardXP+" XP"
+    );
+
+    document.getElementById("gameContent").innerHTML=`
+
+        <div class="result">
+
+            <div class="result-icon">
+                🌍
+            </div>
+
+            <h2>
+                MISSION COMPLETE!
+            </h2>
+
+            <div class="result-score">
+                +${m.rewardXP}
+            </div>
+
+            <p>
+                ⭐ XP Earned
+            </p>
+
+            <div class="result-rewards">
+
+                <div class="result-reward">
+                    🪙 +${m.rewardCoins}
+                </div>
+
+                <div class="result-reward">
+                    🌱 +${m.rewardEco}
+                </div>
+
+                <div class="result-reward">
+                    ❤️ +${m.health}%
+                </div>
+
+            </div>
+
+            <button
+                class="btn btn-primary"
+                style="width:100%"
+                onclick="closeGame()">
+                🚀 CONTINUE
+            </button>
+
+        </div>
+
+    `;
+
+    currentMission=null;
+
+}
+
+/* ================= UNLOCK ================= */
+
+function checkUnlocks(){
+
+    zones.forEach(zone=>{
+
+        if(
+            player.missions>=zone.unlock &&
+            zone.id>player.unlockedZones
+        ){
+
+            player.unlockedZones=zone.id;
+
+            showToast(
+                "🔓 New Zone Unlocked: "+
+                zone.name
+            );
+
+        }
+
+    });
+
+}
+
+/* ================= ACHIEVEMENTS ================= */
+
+function checkAchievements(){
+
+    achievements.forEach(a=>{
+
+        if(
+            !player.achievements.includes(a.id) &&
+            a.check(player)
+        ){
+
+            player.achievements.push(a.id);
+
+            player.coins+=50;
+
+            showToast(
+                "🏆 Achievement: "+a.name
+            );
+
+        }
+
+    });
+
+}
+
+/* ================= RENDER ACHIEVEMENTS ================= */
+
+function renderAchievements(){
+
+    const grid=document.getElementById("achievementGrid");
+
+    grid.innerHTML="";
+
+    achievements.forEach(a=>{
+
+        const unlocked=
+            player.achievements.includes(a.id);
+
+        const div=document.createElement("div");
+
+        div.className=
+            "achievement "+
+            (unlocked?"unlocked":"");
+
+        div.innerHTML=`
+
+            <div class="achievement-icon">
+                ${a.icon}
+            </div>
+
+            <div class="achievement-name">
+                ${a.name}
+            </div>
+
+            <div style="
+                font-size:10px;
+                color:#9db5a5;
+                margin-top:5px">
+                ${unlocked?"UNLOCKED":"LOCKED"}
+            </div>
+
+        `;
+
+        grid.appendChild(div);
+
+    });
+
+}
+
+/* ================= DAILY ================= */
+
+function updateDaily(){
+
+    const value=Math.min(3,player.daily);
+
+    document.getElementById("dailyFill")
+        .style.width=(value/3*100)+"%";
+
+    document.getElementById("dailyProgressText")
+        .textContent=
+        `${value} / 3 missions`;
+
+    if(value>=3){
+
+        document.getElementById("dailyText")
+            .textContent=
+            "🏆 Daily Challenge Complete!";
+
+    }else{
+
+        document.getElementById("dailyText")
+            .textContent=
+            "Complete 3 missions today.";
+
+    }
+
+}
+
+/* ================= HOW TO ================= */
+
+function showHowToPlay(){
+
+    document
+        .getElementById("howModal")
+        .classList.remove("hidden");
+
+}
+
+/* ================= TOAST ================= */
+
+function showToast(message){
+
+    const container=
+        document.getElementById("toastContainer");
+
+    const toast=document.createElement("div");
+
+    toast.className="toast";
+
+    toast.textContent=message;
+
+    container.appendChild(toast);
+
+    setTimeout(()=>{
+
+        toast.remove();
+
+    },3000);
+
+}
+
+/* ================= STARS ================= */
+
+function createStars(){
+
+    const container=document.getElementById("stars");
+
+    for(let i=0;i<80;i++){
+
+        const star=document.createElement("div");
+
+        star.className="star";
+
+        star.style.left=
+            Math.random()*100+"%";
+
+        star.style.top=
+            Math.random()*100+"%";
+
+        star.style.animationDelay=
+            Math.random()*2+"s";
+
+        container.appendChild(star);
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>

@@ -18,7 +18,7 @@ JavaScript
 
 🚀 Getting Started
 Clone the repository
-   git clone https://github.com/your-username/eecoquest.git
+   git clone https://github.com/Himanshu265/eecoquest.git
 Open index.html in your browser
 Start taking steps toward a greener future!
 
